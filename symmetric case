@@ -1,0 +1,4 @@
+In this example we proposed a facilitated case in which the matrix to be predicted is symmetric.
+The user is requested to specify the number of simulations he/she wants the algorithm to perform. 
+
+Please, be sure that you run the code in the same folder where `matrix_completion_nuclear` is stored.
