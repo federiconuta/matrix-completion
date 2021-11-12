@@ -86,6 +86,12 @@ end
 
 The results of the mock example are stored in `CompletedMatrix{k}`. In parrticular, a value for each regularization parameter <img src="https://render.githubusercontent.com/render/math?math=\lambda"> is provided as output. The "optimal" predicted matrix <img src="https://render.githubusercontent.com/render/math?math=\hat{A}"> is the one associated with the "optimal" <img src="https://render.githubusercontent.com/render/math?math=\lambda"> parameter. A simple elbow method can be adopted to select the latter.
 
+
+A furrther example is proposed in `esempio.m`.
+There is proposed a facilitated case in which the matrix to be predicted is symmetric.
+The user is requested to specify the number of simulations he/she wants the algorithm to perform. 
+Please, be sure that you run the code in the same folder where `matrix_completion_nuclear` is stored.
+
 # Citation
 If you use this MC algorithm in your research, please cite us as follows:
 
