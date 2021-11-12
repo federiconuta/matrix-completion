@@ -46,3 +46,66 @@ with <img src="https://render.githubusercontent.com/render/math?math=t_+:=\max(t
 It is worth mentioning that a particularly efficient implementation of the operator <img src="https://render.githubusercontent.com/render/math?math={\bf S}_{\lambda}(\cdot)"> is possible (by means of the MATLAB function svt.m, see Li and Zhou, (2017).
 
 
+# Usage Examples:
+
+In the following mock example we will create a Toepliz square matrix, <img src="https://render.githubusercontent.com/render/math?math={\bf A}">, and try to predict its entries through the matrix completion algorithm.
+The algorithm composes of a main function, `matrix_completion_nuclear` and a complementary function, `svt`, by Li and Zhou, (2017). `svt.m` should be in the same directory as `matrix_completion_nuclear.m`
+
+```
+clear 
+clc
+
+%make sure you run this within the directory where svt.m is
+cd /Users/federiconutarelli/Desktop/github_me/
+
+A = toeplitz(randi([0 9],6,1));
+B=1-isnan(A);
+
+N = 10; %setting thee numbeer of iterations for matrix completion code
+M=15; %choosing the ranges of lambda
+lambda_tol_vector= zeros(M,1);
+
+counter = 1;
+for h=-M:0.5:M
+    lambda_tol_vector(counter)=2^(h);
+    counter = counter+1;
+end
+
+for k=1:size(lambda_tol_vector)
+    lambda_tol = lambda_tol_vector(k);
+    tol = 1e-9;
+    fprintf('Completion using nuclear norm regularization... \n');
+    [CompletedMat,objective,flag] = matrix_completion_nuclear(A.*B,B,N,lambda_tol,tol);
+    if flag==1
+        CompletedMat=zeros(size(A));
+    end
+    
+    CompletedMatrix{k}=CompletedMat;
+end
+```
+
+The results of the mock example are stored in `CompletedMatrix{k}`. In parrticular, a value for each regularization parameter <img src="https://render.githubusercontent.com/render/math?math=\lambda"> is provided as output. The "optimal" predicted matrix <img src="https://render.githubusercontent.com/render/math?math=\hat{A}"> is the one associated with the "optimal" <img src="https://render.githubusercontent.com/render/math?math=\lambda"> parameter. A simple elbow method can be adopted to select the latter.
+
+# Citation
+If you use this MC algorithm in your research, please cite us as follows:
+
+F.Nutarelli, G.Gnecco. MC algorithm: A matlab algorithm for easy Matrix Completion.
+
+BibTex
+```
+@misc{econml,
+  author={F.Nutarelli, G.Gnecco},
+  title={{MC algorithm}: {A matlab algorithm for easy Matrix Completion.}},
+  howpublished={https://github.com/feedericonutarelli},
+  year={2021}
+}
+```
+
+# References
+
+Li, C., & Zhou, H. (2017). **Svt:  Singular value thresholding in MATLAB.** Journal of Statistical Software, 81(2), DOI:10.18637/jss.v081.c02.
+
+Mazumder, R., Hastie, T., & Tibshirani, R. (2010). **Spectral regularization algorithms for learning large incomplete matrices.** Journal of Machine Learning Research, 11, pp. 2287–2322.
+
+Tibshirani, R. (1996). **Regression shrinkage and selection via the Lasso.** Journal of the Royal Statistical Society. Series B(Methodological), 58(1), pp. 267—288.
+
